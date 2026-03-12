@@ -1,0 +1,213 @@
+@import "tailwindcss";
+
+:root {
+  --gold: #C9A84C;
+  --gold-light: #E8C96B;
+  --gold-dark: #9B7B2E;
+  --navy: #0D1B2A;
+  --navy-light: #1B2E42;
+  --navy-mid: #162538;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  direction: rtl;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Segoe UI', 'Arial', sans-serif;
+  background-color: #0D1B2A;
+  color: #FFFFFF;
+  min-height: 100vh;
+  direction: rtl;
+}
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #0D1B2A; }
+::-webkit-scrollbar-thumb { background: #9B7B2E; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #C9A84C; }
+
+.text-gold-gradient {
+  background: linear-gradient(135deg, #C9A84C, #E8C96B, #C9A84C);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(201, 168, 76, 0.2);
+  border-radius: 16px;
+  transition: all 0.3s ease;
+}
+
+.glass-card:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(201, 168, 76, 0.4);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(201, 168, 76, 0.15);
+}
+
+.btn-gold {
+  background: linear-gradient(135deg, #C9A84C, #E8C96B);
+  color: #0D1B2A;
+  font-weight: 700;
+  padding: 12px 32px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 16px;
+  display: inline-block;
+  text-align: center;
+}
+
+.btn-gold:hover {
+  background: linear-gradient(135deg, #E8C96B, #C9A84C);
+  box-shadow: 0 4px 20px rgba(201, 168, 76, 0.4);
+  transform: translateY(-1px);
+}
+
+.btn-outline {
+  background: transparent;
+  color: #C9A84C;
+  font-weight: 700;
+  padding: 12px 32px;
+  border-radius: 8px;
+  border: 2px solid #C9A84C;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 16px;
+  display: inline-block;
+  text-align: center;
+}
+
+.btn-outline:hover {
+  background: #C9A84C;
+  color: #0D1B2A;
+}
+
+.section-divider {
+  width: 80px;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, #C9A84C, transparent);
+  margin: 0 auto 24px;
+}
+
+@keyframes pulse-gold {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(201, 168, 76, 0.4); }
+  50% { box-shadow: 0 0 0 8px rgba(201, 168, 76, 0); }
+}
+
+@keyframes ticker-scroll {
+  0% { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
+}
+
+.ticker-content {
+  animation: ticker-scroll 40s linear infinite;
+  white-space: nowrap;
+}
+
+.input-gold {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(201, 168, 76, 0.3);
+  border-radius: 8px;
+  color: white;
+  padding: 12px 16px;
+  font-size: 16px;
+  transition: all 0.3s ease;
+  width: 100%;
+  direction: rtl;
+}
+
+.input-gold:focus {
+  outline: none;
+  border-color: #C9A84C;
+  box-shadow: 0 0 0 3px rgba(201, 168, 76, 0.15);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.input-gold::placeholder { color: rgba(255, 255, 255, 0.4); }
+
+.select-gold {
+  background: rgba(13, 27, 42, 0.95);
+  border: 1px solid rgba(201, 168, 76, 0.3);
+  border-radius: 8px;
+  color: white;
+  padding: 12px 16px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  direction: rtl;
+  width: 100%;
+}
+
+.select-gold:focus {
+  outline: none;
+  border-color: #C9A84C;
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in-up { animation: fadeInUp 0.6s ease forwards; }
+
+.hero-gradient {
+  background: radial-gradient(ellipse at top, #1B2E42 0%, #0D1B2A 70%);
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.spinner {
+  border: 3px solid rgba(201, 168, 76, 0.2);
+  border-top-color: #C9A84C;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 0.8s linear infinite;
+}
+
+.nav-link {
+  color: rgba(255,255,255,0.85);
+  transition: color 0.2s;
+  font-size: 15px;
+  padding: 4px 0;
+  position: relative;
+}
+
+.nav-link:hover {
+  color: #C9A84C;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  right: 0;
+  width: 0;
+  height: 2px;
+  background: #C9A84C;
+  transition: width 0.3s ease;
+}
+
+.nav-link:hover::after {
+  width: 100%;
+}
+
+.nav-link.active {
+  color: #C9A84C;
+}
+
+.nav-link.active::after {
+  width: 100%;
+}
