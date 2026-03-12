@@ -21,8 +21,46 @@ const FALLBACK_RATES: TickerRate[] = [
   { code: 'JOD', name: 'دينار أردني', rate: 18540, change: -0.1, flag: '🇯🇴' },
 ];
 
+const TICKER_CODES = ['USD', 'EUR', 'SAR', 'AED', 'TRY', 'GBP', 'KWD', 'JOD'];
+
 export default function RateTicker() {
   const [rates, setRates] = useState<TickerRate[]>(FALLBACK_RATES);
+
+  useEffect(() => {
+    async function fetchRates() {
+      try {
+        const res = await fetch('/api/rates?type=currencies&city=damascus');
+        const data = await res.json();
+        if (!data.ok) return;
+
+        const currencies = data.data?.currencies || data.data?.rates || [];
+        const mapped: TickerRate[] = currencies
+          .filter((c: { code: string }) => TICKER_CODES.includes(c.code))
+          .map((c: {
+            code: string;
+            name_ar?: string;
+            name?: string;
+            flag?: string;
+            cities?: { damascus?: { sell?: number; change?: number } };
+          }) => ({
+            code: c.code,
+            name: c.name_ar || c.name || c.code,
+            rate: c.cities?.damascus?.sell || 0,
+            change: c.cities?.damascus?.change || 0,
+            flag: c.flag || '🏳️',
+          }))
+          .filter((r: TickerRate) => r.rate > 0);
+
+        if (mapped.length > 0) setRates(mapped);
+      } catch {
+        // keep fallback rates
+      }
+    }
+
+    fetchRates();
+    const interval = setInterval(fetchRates, 5 * 60 * 1000); // refresh every 5 min
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <div style={{ background: '#060F19', borderBottom: '1px solid rgba(201,168,76,0.15)', padding: '8px 0', overflow: 'hidden' }}>

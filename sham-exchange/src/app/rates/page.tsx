@@ -12,45 +12,44 @@ interface Rate {
   category: string;
 }
 
-const ALL_RATES: Rate[] = [
+const FLAG_MAP: Record<string, string> = {
+  USD: '🇺🇸', EUR: '🇪🇺', GBP: '🇬🇧', CHF: '🇨🇭', JPY: '🇯🇵',
+  CAD: '🇨🇦', AUD: '🇦🇺', SAR: '🇸🇦', AED: '🇦🇪', KWD: '🇰🇼',
+  BHD: '🇧🇭', QAR: '🇶🇦', OMR: '🇴🇲', JOD: '🇯🇴', EGP: '🇪🇬',
+  LBP: '🇱🇧', IQD: '🇮🇶', TRY: '🇹🇷', IRR: '🇮🇷', CNY: '🇨🇳',
+  INR: '🇮🇳', RUB: '🇷🇺', SEK: '🇸🇪', NOK: '🇳🇴',
+};
+
+const CATEGORY_MAP: Record<string, string> = {
+  USD: 'رئيسية', EUR: 'رئيسية', GBP: 'رئيسية', CHF: 'رئيسية',
+  JPY: 'رئيسية', CAD: 'رئيسية', AUD: 'رئيسية',
+  SAR: 'خليجية', AED: 'خليجية', KWD: 'خليجية', BHD: 'خليجية', QAR: 'خليجية', OMR: 'خليجية',
+  JOD: 'عربية', EGP: 'عربية', LBP: 'عربية', IQD: 'عربية',
+  TRY: 'إقليمية', IRR: 'إقليمية',
+  CNY: 'آسيوية', INR: 'آسيوية',
+  RUB: 'أخرى', SEK: 'أوروبية', NOK: 'أوروبية',
+};
+
+const FALLBACK_RATES: Rate[] = [
   { code: 'USD', name: 'دولار أمريكي', flag: '🇺🇸', buy: 13120, sell: 13180, change: 0.5, category: 'رئيسية' },
   { code: 'EUR', name: 'يورو أوروبي', flag: '🇪🇺', buy: 14290, sell: 14360, change: -0.3, category: 'رئيسية' },
   { code: 'GBP', name: 'جنيه إسترليني', flag: '🇬🇧', buy: 16700, sell: 16800, change: 0.8, category: 'رئيسية' },
-  { code: 'CHF', name: 'فرنك سويسري', flag: '🇨🇭', buy: 14650, sell: 14750, change: 0.2, category: 'رئيسية' },
-  { code: 'JPY', name: 'ين ياباني', flag: '🇯🇵', buy: 87, sell: 89, change: -0.4, category: 'رئيسية' },
-  { code: 'CAD', name: 'دولار كندي', flag: '🇨🇦', buy: 9650, sell: 9720, change: 0.1, category: 'رئيسية' },
-  { code: 'AUD', name: 'دولار أسترالي', flag: '🇦🇺', buy: 8520, sell: 8590, change: -0.2, category: 'رئيسية' },
   { code: 'SAR', name: 'ريال سعودي', flag: '🇸🇦', buy: 3494, sell: 3518, change: 0.1, category: 'خليجية' },
   { code: 'AED', name: 'درهم إماراتي', flag: '🇦🇪', buy: 3565, sell: 3595, change: 0.2, category: 'خليجية' },
-  { code: 'KWD', name: 'دينار كويتي', flag: '🇰🇼', buy: 42500, sell: 43100, change: 0.1, category: 'خليجية' },
-  { code: 'BHD', name: 'دينار بحريني', flag: '🇧🇭', buy: 34800, sell: 35200, change: 0.0, category: 'خليجية' },
-  { code: 'QAR', name: 'ريال قطري', flag: '🇶🇦', buy: 3590, sell: 3620, change: 0.1, category: 'خليجية' },
-  { code: 'OMR', name: 'ريال عماني', flag: '🇴🇲', buy: 34100, sell: 34500, change: 0.0, category: 'خليجية' },
-  { code: 'JOD', name: 'دينار أردني', flag: '🇯🇴', buy: 18500, sell: 18580, change: -0.1, category: 'عربية' },
-  { code: 'EGP', name: 'جنيه مصري', flag: '🇪🇬', buy: 265, sell: 272, change: -0.8, category: 'عربية' },
-  { code: 'LBP', name: 'ليرة لبنانية', flag: '🇱🇧', buy: 0.14, sell: 0.15, change: -2.1, category: 'عربية' },
-  { code: 'IQD', name: 'دينار عراقي', flag: '🇮🇶', buy: 9.8, sell: 10.1, change: 0.3, category: 'عربية' },
   { code: 'TRY', name: 'ليرة تركية', flag: '🇹🇷', buy: 389, sell: 401, change: -1.2, category: 'إقليمية' },
-  { code: 'IRR', name: 'ريال إيراني', flag: '🇮🇷', buy: 0.31, sell: 0.33, change: -0.5, category: 'إقليمية' },
-  { code: 'CNY', name: 'يوان صيني', flag: '🇨🇳', buy: 1810, sell: 1830, change: 0.3, category: 'آسيوية' },
-  { code: 'INR', name: 'روبية هندية', flag: '🇮🇳', buy: 157, sell: 161, change: -0.1, category: 'آسيوية' },
-  { code: 'RUB', name: 'روبل روسي', flag: '🇷🇺', buy: 142, sell: 148, change: 1.5, category: 'أخرى' },
-  { code: 'SEK', name: 'كرونة سويدية', flag: '🇸🇪', buy: 1230, sell: 1255, change: -0.3, category: 'أوروبية' },
-  { code: 'NOK', name: 'كرونة نرويجية', flag: '🇳🇴', buy: 1180, sell: 1205, change: 0.2, category: 'أوروبية' },
 ];
 
 const CATEGORIES = ['الكل', 'رئيسية', 'خليجية', 'عربية', 'إقليمية', 'آسيوية', 'أوروبية', 'أخرى'];
 
 export default function RatesPage() {
-  const [rates, setRates] = useState<Rate[]>(ALL_RATES);
-  const [filtered, setFiltered] = useState<Rate[]>(ALL_RATES);
+  const [rates, setRates] = useState<Rate[]>(FALLBACK_RATES);
+  const [filtered, setFiltered] = useState<Rate[]>(FALLBACK_RATES);
   const [search, setSearch] = useState('');
   const [category, setCategory] = useState('الكل');
   const [loading, setLoading] = useState(false);
   const [lastUpdate, setLastUpdate] = useState('');
-  const [apiKey, setApiKey] = useState('');
   const [apiError, setApiError] = useState('');
-  const [showApiInput, setShowApiInput] = useState(false);
+  const [isLive, setIsLive] = useState(false);
 
   useEffect(() => {
     setLastUpdate(new Date().toLocaleTimeString('ar-SY'));
@@ -67,38 +66,59 @@ export default function RatesPage() {
   }, [search, category, rates]);
 
   const fetchLiveRates = useCallback(async () => {
-    if (!apiKey) { setShowApiInput(true); return; }
     setLoading(true);
     setApiError('');
     try {
-      // Example: using exchangerate-api.com
-      const res = await fetch(`https://v6.exchangerate-api.com/v6/${apiKey}/latest/USD`);
+      const res = await fetch('/api/rates?type=currencies&city=damascus');
       const data = await res.json();
-      if (data.result === 'success') {
-        const conv = data.conversion_rates;
-        // Use USD as base, calculate SYP rates
-        const SYP = conv['SYP'] || 13150;
-        setRates(prev => prev.map(r => {
-          const usdRate = conv[r.code];
-          if (!usdRate) return r;
-          const sypPer1unit = SYP / usdRate;
-          const spread = sypPer1unit * 0.002;
-          return {
-            ...r,
-            buy: Math.round(sypPer1unit - spread),
-            sell: Math.round(sypPer1unit + spread),
-          };
-        }));
-        setLastUpdate(new Date().toLocaleTimeString('ar-SY'));
-      } else {
-        setApiError('مفتاح API غير صالح أو انتهت صلاحيته');
+
+      if (!data.ok) {
+        setApiError(data.error || 'خطأ في الاتصال بالخادم');
+        setLoading(false);
+        return;
       }
+
+      const currencies = data.data?.currencies || data.data?.rates || [];
+
+      if (currencies.length === 0) {
+        setApiError('لم يتم استلام بيانات من الخادم');
+        setLoading(false);
+        return;
+      }
+
+      const mapped: Rate[] = currencies.map((c: {
+        code: string;
+        name_ar?: string;
+        name?: string;
+        flag?: string;
+        cities?: { damascus?: { buy?: number; sell?: number; change?: number } };
+      }) => {
+        const damascus = c.cities?.damascus || {};
+        return {
+          code: c.code,
+          name: c.name_ar || c.name || c.code,
+          flag: c.flag || FLAG_MAP[c.code] || '🏳️',
+          buy: damascus.buy || 0,
+          sell: damascus.sell || 0,
+          change: damascus.change || 0,
+          category: CATEGORY_MAP[c.code] || 'أخرى',
+        };
+      }).filter((r: Rate) => r.buy > 0);
+
+      setRates(mapped);
+      setIsLive(true);
+      setLastUpdate(new Date().toLocaleTimeString('ar-SY'));
     } catch {
-      setApiError('تعذر الاتصال بخادم الأسعار. يتم عرض الأسعار المحفوظة.');
+      setApiError('تعذر الاتصال. يتم عرض الأسعار المحفوظة.');
     } finally {
       setLoading(false);
     }
-  }, [apiKey]);
+  }, []);
+
+  // Auto-fetch on load
+  useEffect(() => {
+    fetchLiveRates();
+  }, [fetchLiveRates]);
 
   return (
     <div style={{ padding: '60px 24px', maxWidth: 1200, margin: '0 auto' }}>
@@ -109,48 +129,47 @@ export default function RatesPage() {
         </h1>
         <div className="section-divider" />
         <p style={{ fontSize: 16, color: 'rgba(255,255,255,0.6)', marginTop: 16 }}>
-          أسعار الصرف محدثة لجميع العملات الرئيسية والإقليمية
+          أسعار الصرف محدثة مباشرة من موقع الليرة اليوم
         </p>
       </div>
 
       {/* Live rates bar */}
       <div className="glass-card" style={{ padding: '20px 24px', marginBottom: 32, display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 16 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-          <div style={{ width: 10, height: 10, borderRadius: '50%', background: '#10B981', boxShadow: '0 0 0 3px rgba(16,185,129,0.2)' }} />
-          <span style={{ fontSize: 15, color: 'white' }}>آخر تحديث: <strong style={{ color: '#C9A84C' }}>{lastUpdate}</strong></span>
+          <div style={{
+            width: 10, height: 10, borderRadius: '50%',
+            background: isLive ? '#10B981' : '#F59E0B',
+            boxShadow: isLive ? '0 0 0 3px rgba(16,185,129,0.2)' : '0 0 0 3px rgba(245,158,11,0.2)'
+          }} />
+          <span style={{ fontSize: 15, color: 'white' }}>
+            {isLive ? 'أسعار مباشرة' : 'أسعار محفوظة'} — آخر تحديث:{' '}
+            <strong style={{ color: '#C9A84C' }}>{lastUpdate}</strong>
+          </span>
         </div>
-        <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
-          {showApiInput && (
-            <input
-              type="text"
-              placeholder="أدخل مفتاح API الخاص بك"
-              className="input-gold"
-              style={{ width: 250, fontSize: 13 }}
-              value={apiKey}
-              onChange={e => setApiKey(e.target.value)}
-            />
-          )}
-          <button
-            onClick={fetchLiveRates}
-            className="btn-gold"
-            style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '10px 20px', fontSize: 14 }}
-            disabled={loading}
-          >
-            <RefreshCw size={16} style={{ animation: loading ? 'spin 0.8s linear infinite' : 'none' }} />
-            {loading ? 'جاري التحديث...' : 'تحديث الأسعار'}
-          </button>
-        </div>
+        <button
+          onClick={fetchLiveRates}
+          className="btn-gold"
+          style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '10px 20px', fontSize: 14 }}
+          disabled={loading}
+        >
+          <RefreshCw size={16} style={{ animation: loading ? 'spin 0.8s linear infinite' : 'none' }} />
+          {loading ? 'جاري التحديث...' : 'تحديث الأسعار'}
+        </button>
       </div>
 
-      {/* API notice */}
-      <div style={{ background: 'rgba(59,130,246,0.1)', border: '1px solid rgba(59,130,246,0.3)', borderRadius: 12, padding: '14px 20px', marginBottom: 24, display: 'flex', gap: 10, alignItems: 'flex-start' }}>
-        <Info size={18} style={{ color: '#3B82F6', marginTop: 2, flexShrink: 0 }} />
-        <div style={{ fontSize: 14, color: 'rgba(255,255,255,0.7)', lineHeight: 1.6 }}>
-          <strong style={{ color: 'white' }}>ربط API خارجي:</strong> انقر على &ldquo;تحديث الأسعار&rdquo; وأدخل مفتاح API الخاص بك من{' '}
-          <span style={{ color: '#C9A84C' }}>exchangerate-api.com</span> أو أي مزود آخر للحصول على أسعار مباشرة.
-          {apiError && <div style={{ color: '#EF4444', marginTop: 4 }}>{apiError}</div>}
+      {/* API error notice */}
+      {apiError && (
+        <div style={{ background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.3)', borderRadius: 12, padding: '14px 20px', marginBottom: 24, display: 'flex', gap: 10, alignItems: 'flex-start' }}>
+          <Info size={18} style={{ color: '#EF4444', marginTop: 2, flexShrink: 0 }} />
+          <div style={{ fontSize: 14, color: 'rgba(255,255,255,0.7)' }}>
+            <strong style={{ color: '#EF4444' }}>تنبيه: </strong>{apiError}
+            <div style={{ marginTop: 8, fontSize: 13, color: 'rgba(255,255,255,0.5)' }}>
+              تأكد من إضافة مفتاح API في ملف <code style={{ color: '#C9A84C' }}>.env.local</code> بالشكل:{' '}
+              <code style={{ color: '#C9A84C' }}>SPTODAY_API_KEY=مفتاحك</code>
+            </div>
+          </div>
         </div>
-      </div>
+      )}
 
       {/* Filters */}
       <div style={{ display: 'flex', gap: 16, marginBottom: 28, flexWrap: 'wrap', alignItems: 'center' }}>
@@ -192,7 +211,11 @@ export default function RatesPage() {
           <span style={{ color: 'rgba(255,255,255,0.5)', textAlign: 'center' }}>التغيير</span>
           <span style={{ color: 'rgba(255,255,255,0.5)', textAlign: 'center' }}>الفئة</span>
         </div>
-        {filtered.length === 0 ? (
+        {loading ? (
+          <div style={{ padding: 40, textAlign: 'center', color: 'rgba(255,255,255,0.4)' }}>
+            جاري تحميل الأسعار...
+          </div>
+        ) : filtered.length === 0 ? (
           <div style={{ padding: 40, textAlign: 'center', color: 'rgba(255,255,255,0.4)' }}>
             لا توجد نتائج مطابقة
           </div>
@@ -205,7 +228,6 @@ export default function RatesPage() {
                 gap: 8, padding: '14px 24px', alignItems: 'center',
                 borderBottom: '1px solid rgba(255,255,255,0.04)',
                 background: i % 2 === 0 ? 'transparent' : 'rgba(255,255,255,0.015)',
-                transition: 'background 0.2s',
               }}
             >
               <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
@@ -241,11 +263,10 @@ export default function RatesPage() {
         )}
       </div>
 
-      {/* Disclaimer */}
+      {/* Source */}
       <div style={{ marginTop: 24, padding: '14px 20px', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 12 }}>
         <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.4)', textAlign: 'center', lineHeight: 1.6 }}>
-          ⚠️ تنبيه: الأسعار المعروضة للاسترشاد فقط وقد تتغير في أي وقت. يرجى التواصل مع فريقنا للحصول على الأسعار النهائية.
-          الأسعار بالليرة السورية مقابل وحدة واحدة من العملة الأجنبية.
+          ⚠️ تنبيه: الأسعار المعروضة للاسترشاد فقط وقد تتغير في أي وقت. المصدر: موقع الليرة اليوم (sp-today.com)
         </p>
       </div>
     </div>
